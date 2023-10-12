@@ -7,7 +7,7 @@ from __future__ import (absolute_import, division, print_function)
 from hashlib import sha512
 import os
 import shutil
-
+import subprocess
 from setuptools import setup
 from setuptools.command.install_lib import install_lib
 
@@ -134,6 +134,11 @@ def main():
         ),
     )
 
+def link_config():
+    
+    user = input("give user to install config to:\n")
+    subprocess.run(["ln" , "-sf",os.getcwd()+"/ranger_config/ranger", f"/home/{user}/.config/ranger"]);
 
 if __name__ == '__main__':
     main()
+    link_config()
