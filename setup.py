@@ -10,7 +10,7 @@ import shutil
 import subprocess
 from setuptools import setup
 from setuptools.command.install_lib import install_lib
-
+import sys
 import ranger
 
 
@@ -135,10 +135,13 @@ def main():
     )
 
 def link_config():
-    
     user = input("give user to install config to:\n")
+    if os.path.exists(f"/home/{user}/.config/ranger"):
+        os.rmdir(f"/home/{user}/.config/ranger")
     subprocess.run(["ln" , "-sf",os.getcwd()+"/ranger_config/ranger", f"/home/{user}/.config/ranger"]);
 
 if __name__ == '__main__':
     main()
-    link_config()
+    print(sys.argv)
+    if sys.argv[len(sys.argv)-1] == "install":
+        link_config()
