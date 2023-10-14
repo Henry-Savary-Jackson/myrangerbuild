@@ -141,6 +141,7 @@ def link_config():
             os.unlink(f"/home/{user}/.config/ranger");
         else:
             os.rmdir(f"/home/{user}/.config/ranger")
+        os.rmdir(f"/home/{user}/.config/ranger")
     subprocess.run(["ln" , "-sf",os.getcwd()+"/ranger_config/ranger", f"/home/{user}/.config/ranger"]);
 
 if __name__ == '__main__':
