@@ -11,18 +11,44 @@ from __future__ import (absolute_import, division, print_function)
 
 # You can import any python module as needed.
 import os
-
-# You always need to import ranger.api.commands here to get the Command class:
 from ranger.api.commands import Command
 
 
+
+class term_at_cwd(Command):
+    
+    # The so-called doc-string of the class will be visible in the built-in
+    # help that is accessible by typing "?c" inside ranger.
+    """:term_at_cwd 
+    opens the current working dir in terminal
+    """
+    def execute(self):
+        from ranger.ext.popen_forked import Popen_forked
+        cwd = self.fm.thisdir.path
+        cmd = ["st" ] 
+        Popen_forked(cmd)
+
+    def tab(self, tabnum):
+        return None
+
+    def cancel(self):
+        pass
+
+    def quick(self):
+        return False
+
+
+
+
+
+# You always need to import ranger.api.commands here to get the Command class:
+from ranger.api.commands import Command
 # Any class that is a subclass of "Command" will be integrated into ranger as a
 # command.  Try typing ":my_edit<ENTER>" in ranger!
 class my_edit(Command):
     # The so-called doc-string of the class will be visible in the built-in
     # help that is accessible by typing "?c" inside ranger.
     """:my_edit <filename>
-
     A sample command for demonstration purposes that opens a file in an editor.
     """
 

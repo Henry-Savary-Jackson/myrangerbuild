@@ -97,7 +97,6 @@ import re
 
 from ranger.api.commands import Command
 
-
 class alias(Command):
     """:alias <newcommand> <oldcommand>
 
