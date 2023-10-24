@@ -7,26 +7,31 @@
 # A simple command for demonstration purposes follows.
 # -----------------------------------------------------------------------------
 
-from __future__ import (absolute_import, division, print_function)
+from __future__ import absolute_import, division, print_function
 
 # You can import any python module as needed.
 import os
 from ranger.api.commands import Command
 
 
-
-class term_at_cwd(Command):
-    
-    # The so-called doc-string of the class will be visible in the built-in
-    # help that is accessible by typing "?c" inside ranger.
-    """:term_at_cwd 
-    opens the current working dir in terminal
+class editor_at_cwd(Command):
+    """:editor_at_cwd
+    opens the current working dir in the default visual editor.
     """
+
     def execute(self):
         from ranger.ext.popen_forked import Popen_forked
-        cwd = self.fm.thisdir.path
-        cmd = ["st" ] 
-        Popen_forked(cmd)
+
+        editor = os.getenv("VISUAL")
+        if not editor:
+            editor = os.getenv("EDITOR")
+        if not editor:
+            self.fm.notify(
+                "No visual editor configured! Please ensure that your EDITOR or VIUSAL are set! ",
+                bad=True,
+            )
+        else:
+            self.fm.edit_file(os.getenv("PWD"))
 
     def tab(self, tabnum):
         return None
@@ -38,11 +43,37 @@ class term_at_cwd(Command):
         return False
 
 
+class term_at_cwd(Command):
+    """:term_at_cwd
+    opens the current working dir in terminal
+    """
 
+    def execute(self):
+        from ranger.ext.popen_forked import Popen_forked
+        from ranger.ext.get_term_cmd import get_term_cmd
+
+        term = get_term_cmd()
+        if not term:
+            self.fm.notify(
+                "Cannot find the executable in your TERM environment variable.",
+                bad=True,
+            )
+            return
+        Popen_forked([term])
+
+    def tab(self, tabnum):
+        return None
+
+    def cancel(self):
+        pass
+
+    def quick(self):
+        return False
 
 
 # You always need to import ranger.api.commands here to get the Command class:
-from ranger.api.commands import Command
+
+
 # Any class that is a subclass of "Command" will be integrated into ranger as a
 # command.  Try typing ":my_edit<ENTER>" in ranger!
 class my_edit(Command):
