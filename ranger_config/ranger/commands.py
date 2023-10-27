@@ -21,7 +21,6 @@ class editor_at_cwd(Command):
 
     def execute(self):
         from ranger.ext.popen_forked import Popen_forked
-
         editor = os.getenv("VISUAL")
         if not editor:
             editor = os.getenv("EDITOR")
