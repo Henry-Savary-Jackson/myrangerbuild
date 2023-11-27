@@ -4,11 +4,11 @@
 from __future__ import absolute_import, division, print_function
 
 from ranger.colorschemes.default import Default
-from ranger.gui.color import green, red, blue, bold
+from ranger.gui.color import purple, green, red, blue, bold
 
 
 class Scheme(Default):
-    progress_bar_color = red
+    progress_bar_color = purple
 
     def use(self, context):
         fg, bg, attr = Default.use(self, context)
