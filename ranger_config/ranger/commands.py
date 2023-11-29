@@ -14,6 +14,26 @@ import os
 from ranger.api.commands import Command
 
 
+class vscodium_at_cwd(Command):
+    """:vscodium_at_cwd
+    opens the current working dir in the default visual editor.
+    """
+
+    def execute(self):
+        from ranger.ext.popen_forked import Popen_forked
+
+        Popen_forked(["vscodium", os.getenv("PWD")])
+
+    def tab(self, tabnum):
+        return None
+
+    def cancel(self):
+        pass
+
+    def quick(self):
+        return False
+
+
 class editor_at_cwd(Command):
     """:editor_at_cwd
     opens the current working dir in the default visual editor.
@@ -21,6 +41,7 @@ class editor_at_cwd(Command):
 
     def execute(self):
         from ranger.ext.popen_forked import Popen_forked
+
         editor = os.getenv("VISUAL")
         if not editor:
             editor = os.getenv("EDITOR")
