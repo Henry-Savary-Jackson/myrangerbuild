@@ -6,6 +6,7 @@ from __future__ import absolute_import, division, print_function
 
 from hashlib import sha512
 import os
+from os.path import isdir
 import shutil
 import subprocess
 from setuptools import setup
@@ -152,11 +153,10 @@ def main():
 def link_config():
     user = input("give user to install config to:\n")
     if os.path.exists(f"/home/{user}/.config/ranger"):
-        if os.path.islink(f"/home/{user}/.config/ranger"):
-            os.unlink(f"/home/{user}/.config/ranger")
-        else:
+        if not (os.path.islink(f"/home/{user}/.config/ranger")) and os.path.isdir(
+            f"/home/{user}/.config/ranger"
+        ):
             os.rmdir(f"/home/{user}/.config/ranger")
-        os.rmdir(f"/home/{user}/.config/ranger")
     subprocess.run(
         [
             "ln",
