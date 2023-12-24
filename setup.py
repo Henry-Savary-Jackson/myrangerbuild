@@ -152,17 +152,20 @@ def main():
 
 def link_config():
     user = input("give user to install config to:\n")
+    home_dir = f"/home/{user}" if user != "root" else "/root"
     if os.path.exists(f"/home/{user}/.config/ranger"):
         if not (os.path.islink(f"/home/{user}/.config/ranger")) and os.path.isdir(
-            f"/home/{user}/.config/ranger"
+            f"{home_dir}/.config/ranger"
         ):
-            os.rmdir(f"/home/{user}/.config/ranger")
+            os.rmdir(f"{home_dir}/.config/ranger")
+        else:
+            os.unlink(f"{home_dir}/.config/ranger")
     subprocess.run(
         [
             "ln",
             "-sf",
-            os.getcwd() + "/ranger_config/ranger",
-            f"/home/{user}/.config/ranger",
+            f"{os.getcwd()}/ranger_config/ranger",
+            f"{home_dir}/.config/ranger",
         ]
     )
 
