@@ -22,7 +22,7 @@ class vscodium_at_cwd(Command):
     def execute(self):
         from ranger.ext.popen_forked import Popen_forked
 
-        Popen_forked(["codium", os.getenv("PWD")])
+        Popen_forked(["codium", "."])
 
     def tab(self, tabnum):
         return None
